@@ -1,38 +1,36 @@
-import { API_BASE_URL } from './config';
+import axios from 'axios';
 
+// 전체 메모 조회
 export const getMemos = async () => {
-  const response = await fetch(`${API_BASE_URL}/memos`);
-  if (!response.ok) throw new Error('Failed to fetch memos');
-  return response.json();
+  const response = await axios.get('/');
+  return response;
 };
 
-export const createMemo = async (memo) => {
-  const response = await fetch(`${API_BASE_URL}/memos`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(memo),
+// 개별 메모 조회
+export const getMemo = async (id) => {
+  const response = await axios.get(`/memos/${id}`);
+  return response.data;
+};
+
+// 메모 생성
+export const createMemo = async (memoData) => {
+  const response = await axios.post('/memos', {
+    title: memoData.title,
+    content: memoData.content
   });
-  if (!response.ok) throw new Error('Failed to create memo');
-  return response.json();
+  return response.data.post;
 };
 
-export const updateMemo = async (id, memo) => {
-  const response = await fetch(`${API_BASE_URL}/memos/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(memo),
+// 메모 수정
+export const updateMemo = async (id, memoData) => {
+  const response = await axios.put(`/memos/${id}`, {
+    title: memoData.title,
+    content: memoData.content
   });
-  if (!response.ok) throw new Error('Failed to update memo');
-  return response.json();
+  return response.data.post;
 };
 
+// 메모 삭제
 export const deleteMemo = async (id) => {
-  const response = await fetch(`${API_BASE_URL}/memos/${id}`, {
-    method: 'DELETE',
-  });
-  if (!response.ok) throw new Error('Failed to delete memo');
+  await axios.delete(`/memos/${id}`);
 };
