@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+axios.defaults.baseURL = 'http://localhost:5000';
+
 // 전체 메모 조회
 export const getMemos = async () => {
   const response = await axios.get('/');
